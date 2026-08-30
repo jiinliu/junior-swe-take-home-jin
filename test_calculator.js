@@ -29,5 +29,11 @@ describe('Borrowing Power Calculator Tests', () => {
     );
   });
 
-});
+  it('should reject negative dependents', async () => {
+    await assert.rejects(
+      calculator.calculateBorrowingPower(30000, -1, 4000, 5000, 7.5),
+      /HEM API failed with status 400/
+    );
+  });
 
+});
