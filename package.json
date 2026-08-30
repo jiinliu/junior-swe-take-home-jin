@@ -7,6 +7,6 @@
     "api": "node server.js",
     "coverage": "c8 mocha test_calculator.js",
     "test": "mocha test_calculator.js",
-    "start": "node borrowingCalculator.js"
+    "start": "node index.js"
   }
 }
