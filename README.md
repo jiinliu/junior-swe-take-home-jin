@@ -37,6 +37,26 @@ Of course we’ll need the test suite to pass and have full coverage.
 
 Use whatever tools and resources help you get the job done. That includes AI, documentation, Stack Overflow, or anything else. What matters is that you understand every line you submit. In the follow-up pairing session, we'll ask you to walk us through your code, explain your decisions, and make changes on the fly - without an AI in Agent mode. If you can't do that confidently, it will count against you. The goal isn't to catch you out, it's to understand how you think.
 
+## Design decisions
+
+### Calculator class
+
+I put `getTax`, `getHEM`, and `calculateBorrowingPower` in a `BorrowingPowerCalculator` class. These methods are part of the same calculator and use the same API URL and token. Separate functions would also work, but the class keeps the related code together and makes it easier to add more methods later.
+
+The constructor has default values for the API URL and token. This means the app can create a calculator without passing them in every time. They can still be changed later if needed.
+
+### Console entry point
+
+`index.js` handles the questions and output shown in the terminal. `borrowingCalculator.js` handles the API calls and calculation. I split them so the calculation code is easier to read and test. Testing the terminal questions would add more complexity, so I test the calculator automatically and check the console manually with `npm start`.
+
+### API errors and testing
+
+The API methods check `response.ok` after each request. If a request fails, they throw an error so the calculation stops. The console catches the error and shows a message to the user.
+
+The tests use the provided development API instead of fake responses. This checks the URLs, authentication header, JSON data, and API errors. The downside is that `npm run api` must be running before the tests.
+
+The coverage command checks `borrowingCalculator.js`. It fails if statements, branches, functions, or lines fall below 100%.
+
 ## Setup
 
 Make sure you have Node.js installed.
@@ -67,10 +87,12 @@ npm start
 
 ## Testing
 
-Run tests with:
+With the development API running in a separate terminal, run tests with:
 ```
 npm test
 ```
 
-
-
+Run the calculator coverage check with:
+```
+npm run coverage
+```
