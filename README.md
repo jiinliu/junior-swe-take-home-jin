@@ -61,7 +61,7 @@ The coverage command checks `borrowingCalculator.js`. It fails if statements, br
 
 ## Setup
 
-Make sure you have Node.js installed.
+Make sure you have Node.js installed. This project was tested with Node.js 22.
 
 Install dependencies:
 ```
