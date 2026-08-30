@@ -24,6 +24,10 @@ async function getTax(income) {
         },
     });
 
+    if (!response.ok) {
+        throw new Error(`Tax API failed with status ${response.status}`);
+    }
+
     const data = await response.json();
     return data.tax;
 }
@@ -85,18 +89,23 @@ function runConsoleMode() {
                     // Banks assess loans using base rate + buffer for safety
                     const assessmentRate = INTEREST_RATE + ASSESSMENT_RATE_BUFFER;
 
-                    const result = await calculateBorrowingPower(
-                        parseFloat(income),
-                        parseInt(dependents),
-                        parseFloat(expenses),
-                        parseFloat(creditLimits),
-                        assessmentRate
-                    );
+                    try {
+                        const result = await calculateBorrowingPower(
+                            parseFloat(income),
+                            parseInt(dependents),
+                            parseFloat(expenses),
+                            parseFloat(creditLimits),
+                            assessmentRate
+                        );
 
-                    console.log("\n--- Calculation Summary ---");
-                    console.log(`Maximum Borrowing Power at ${INTEREST_RATE}%: $${result.maxLoanAmount.toLocaleString()}`);
-                    console.log(`Assumed Monthly Mortgage Repayment: $${result.monthlyRepayment.toLocaleString()} over 30 years`);
-                    rl.close();
+                        console.log("\n--- Calculation Summary ---");
+                        console.log(`Maximum Borrowing Power at ${INTEREST_RATE}%: $${result.maxLoanAmount.toLocaleString()}`);
+                        console.log(`Assumed Monthly Mortgage Repayment: $${result.monthlyRepayment.toLocaleString()} over 30 years`);
+                    } catch (error) {
+                        console.error(`Unable to calculate borrowing power: ${error.message}`);
+                    } finally {
+                        rl.close();
+                    }
                 });
             });
         });
