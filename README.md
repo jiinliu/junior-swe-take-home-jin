@@ -45,6 +45,8 @@ I put `getTax`, `getHEM`, and `calculateBorrowingPower` in a `BorrowingPowerCalc
 
 The constructor has default values for the API URL and token. This means the app can create a calculator without passing them in every time. They can still be changed later if needed.
 
+The API URL and token are development values provided with this exercise. I kept them in the code so the project is easy to run. In a real application, I would keep tokens out of the source code and read them from an environment variable or a secrets manager.
+
 ### Console entry point
 
 `index.js` handles the questions and output shown in the terminal. `borrowingCalculator.js` handles the API calls and calculation. I split them so the calculation code is easier to read and test. Testing the terminal questions would add more complexity, so I test the calculator automatically and check the console manually with `npm start`.
