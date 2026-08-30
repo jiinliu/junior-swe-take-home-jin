@@ -20,5 +20,12 @@ describe('Borrowing Power Calculator Tests', () => {
     assert.strictEqual(result.monthlyRepayment, 0);
   });
 
+  it('should reject a negative income', async () => {
+    await assert.rejects(
+      calculateBorrowingPower(-30000, 3, 4000, 5000, 7.5),
+      /Tax API failed with status 400/
+    );
+  });
+
 });
 
